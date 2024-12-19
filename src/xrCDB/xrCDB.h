@@ -18,6 +18,45 @@
 #define ALIGN(a)
 #endif
 
+// Функция фильтрации 
+
+struct OpcodeArgs
+{
+	struct Hit
+	{
+		float dist;
+		float u, v;
+		u64 prim;
+	} hit_struct;
+
+	Fvector pos;
+	bool valid = 1;
+ 	float energy;
+
+	//int count = 0;
+	void* MDL;
+	void* skip;
+	void* Light;
+};
+
+typedef void (*OpcodeIntersectFilterFunction)(OpcodeArgs* args);
+typedef void (*OpcodeOccludedFilterFunction)(OpcodeArgs* args);
+
+struct OpcodeContext
+{
+	OpcodeIntersectFilterFunction filterIntersect = 0;
+	OpcodeOccludedFilterFunction filterOccluded = 0;
+
+	OpcodeArgs* result;
+
+	Fvector r_start;
+	Fvector r_dir;
+	float r_range;
+
+};
+
+
+
 // forward declarations
 class CFrustum;
 namespace Opcode 
@@ -143,6 +182,10 @@ namespace CDB
 		COLLIDER		();
 		~COLLIDER		();
 
+		// Intersection Filters Caller
+		ICF void		rayTrace1(OpcodeContext* context);
+
+		// Older
 		ICF void		ray_options		(u32 f)	{	ray_mode = f;		}
 		void			ray_query		(const MODEL *m_def, const Fvector& r_start,  const Fvector& r_dir, float r_range = 10000.f);
 
