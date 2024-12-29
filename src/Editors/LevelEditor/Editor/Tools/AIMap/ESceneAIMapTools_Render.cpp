@@ -78,10 +78,6 @@ void ESceneAIMapTool::OnRender(int priority, bool strictB2F)
                             const float st 	= (m_Params.fPatchSize*0.9f)*0.5f;
                             for (AINodeIt it=nodes->begin(); it!=nodes->end(); it++)
                             {
-                                // #TODO: Пофиксить это дерьмо
-                                if (*it == nullptr)
-                                    continue;
-
                                 SAINode& N 	= **it;
 
 								Fvector v;	v.set(N.Pos.x-st,N.Pos.y,N.Pos.z-st);
